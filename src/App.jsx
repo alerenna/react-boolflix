@@ -66,7 +66,26 @@ function Content() {
                   alt={movie.original_language}
                 />
                 <p>{movie.original_language.toUpperCase()}</p>
-                <p>{parseInt(movie.vote_average) / 2}</p>
+
+                {
+                  (() => {
+                    const vote = Math.ceil(movie.vote_average / 2)
+                    const stars = []
+
+                    for (let i = 1; i <= 5; i++) {
+                      if (i <= vote) {
+                        stars.push(<i key={i} className="bi bi-star-fill full"></i>)
+                      } else {
+
+                        stars.push(<i key={i} className="bi bi-star empty"></i>)
+
+                      }
+                    }
+                    return <div>{stars}</div>
+                  })()
+                }
+
+
 
               </div>
             </div>
