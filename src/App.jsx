@@ -66,7 +66,7 @@ function Content() {
                   alt={movie.original_language}
                 />
                 <p>{movie.original_language.toUpperCase()}</p>
-                <p>{movie.vote_average}</p>
+                <p>{parseInt(movie.vote_average) / 2}</p>
 
               </div>
             </div>
