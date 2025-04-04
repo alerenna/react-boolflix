@@ -42,7 +42,8 @@ function Content() {
               <div className="card-body">
                 <h4>{movie.title}</h4>
                 <p>{movie.original_title}</p>
-                <p>{movie.original_language}</p>
+                <img src={movie.original_language === 'en' ? `https://flagsapi.com/US/flat/32.png` : `https://flagsapi.com/${movie.original_language.toUpperCase()}/flat/32.png`}></img>
+                <p>{movie.original_languag}</p>
                 <p>{movie.vote_average}</p>
 
               </div>
