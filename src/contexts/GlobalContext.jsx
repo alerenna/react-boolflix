@@ -11,17 +11,31 @@ function GlobalProvider({ children }) {
 
         const api_key = import.meta.env.VITE_MOVIE_DB_API_KEY;
         const base_movies_api_url = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${query}`;
+        const base_series_api_url = `https://api.themoviedb.org/3/search/tv?api_key=${api_key}&query=${query}`;
 
         fetch(base_movies_api_url)
             .then(res => res.json())
-            .then(data => {
-                setMovies(data.results)
+            .then(moviesData => {
+
+                fetch(base_series_api_url)
+                    .then(res => res.json())
+                    .then(seriesData => {
+
+                        setMovies([...moviesData.results, ...seriesData.results])
+                    })
+
+                    .catch(err => {
+                        console.log(err);
+                    })
             })
             .catch(err => {
                 console.log(err);
             })
 
     }, [query])
+
+
+
 
 
 

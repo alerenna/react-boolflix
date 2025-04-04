@@ -2,6 +2,21 @@ import { useState } from "react"
 import { useMoviesContext, GlobalProvider } from "./contexts/GlobalContext"
 
 
+const languageToCountry = {
+  en: 'US',
+  it: 'IT',
+  fr: 'FR',
+  de: 'DE',
+  ja: 'JP',
+  es: 'ES',
+  zh: 'CN',
+  ko: 'KR',
+  ru: 'RU',
+  pt: 'PT',
+  hi: 'IN',
+  sv: 'CH',
+};
+
 function Content() {
   const { movies, setQuery } = useMoviesContext()
   const [searchInput, setSearchInput] = useState('')
@@ -19,20 +34,19 @@ function Content() {
       <div className="container">
 
         <div className="mb-3">
-          <label htmlFor="" className="form-label"></label>
           <input
             type="text"
             className="form-control"
             name="search-bar"
             id="search-bar"
-            aria-describedby="helpId"
+            aria-describedby="searchMovieHelper"
             placeholder="Search a movie"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
           />
         </div>
 
-        <button onClick={handleMovieSearch} className="btn btn-primary">Search</button>
+        <button onClick={handleMovieSearch} className="btn btn-primary mb-3">Search</button>
       </div>
 
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -40,10 +54,17 @@ function Content() {
           <div key={movie.id} className="col">
             <div className="card h-100">
               <div className="card-body">
-                <h4>{movie.title}</h4>
-                <p>{movie.original_title}</p>
-                <img src={movie.original_language === 'en' ? `https://flagsapi.com/US/flat/32.png` : `https://flagsapi.com/${movie.original_language.toUpperCase()}/flat/32.png`}></img>
-                <p>{movie.original_languag}</p>
+                <h4>{movie.title ? movie.title : movie.name}</h4>
+                <p>{movie.original_title ? movie.original_title : movie.original_name}</p>
+                <img
+                  src={
+                    languageToCountry[movie.original_language]
+                      ? `https://flagsapi.com/${languageToCountry[movie.original_language]}/flat/32.png`
+                      : 'https://via.placeholder.com/32?text=?'
+                  }
+                  alt={movie.original_language}
+                />
+                <p>{movie.original_language.toUpperCase()}</p>
                 <p>{movie.vote_average}</p>
 
               </div>
@@ -51,7 +72,7 @@ function Content() {
           </div>
 
         ))}
-      </div>
+      </div >
 
 
     </>
