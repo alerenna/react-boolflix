@@ -54,6 +54,7 @@ function Content() {
           <div key={movie.id} className="col">
             <div className="card h-100">
               <div className="card-body">
+                <img className="poster" src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`} alt="" />
                 <h4>{movie.title ? movie.title : movie.name}</h4>
                 <p>{movie.original_title ? movie.original_title : movie.original_name}</p>
                 <img
