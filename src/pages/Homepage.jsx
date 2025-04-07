@@ -17,6 +17,28 @@ const languageToCountry = {
     sv: 'CH',
 };
 
+const genreIdToName = {
+    28: 'Action',
+    12: 'Adventure',
+    16: 'Animation',
+    35: 'Comedy',
+    80: 'Crime',
+    99: 'Documentary',
+    18: 'Drama',
+    10751: 'Family',
+    14: 'Fantasy',
+    36: 'History',
+    27: 'Horror',
+    10402: 'Music',
+    9648: 'Mystery',
+    10749: 'Romance',
+    878: 'Science Fiction',
+    10770: 'TV Movie',
+    53: 'Thriller',
+    10752: 'War',
+    37: 'Western'
+}
+
 export default function Homepage() {
 
     const { movies, setQuery, setMovieId, cast, setMediaType } = useMoviesContext()
@@ -43,8 +65,10 @@ export default function Homepage() {
 
                                     <div className="movie-infos">
 
-                                        <h4>{movie.title ? movie.title : movie.name}</h4>
-                                        <p>{movie.original_title ? movie.original_title : movie.original_name}</p>
+                                        <h5>{movie.title ? movie.title : movie.name}</h5>
+                                        <p className="original-title">{movie.original_title ? movie.original_title : movie.original_name}</p>
+
+                                        {/* Language & vote logic */}
                                         <div className="language_vote d-flex justify-content-between">
                                             {/* Language to flag */}
 
@@ -76,8 +100,10 @@ export default function Homepage() {
                                                 })()
                                             }
                                         </div>
+
                                         <p className="overview">{movie.overview}</p>
 
+                                        {/* Show cast logic */}
                                         <div className="cast" onClick={() => {
                                             console.log('Clicked movie');
 
@@ -100,6 +126,14 @@ export default function Homepage() {
                                             )}
                                         </div>
 
+                                        {/* Genres logic */}
+                                        <div className="genre-container">
+                                            <h6 className="genres-title mt-2">Genres</h6>
+                                            {movie.genre_ids.map(id =>
+                                                <span className="genre" key={id} > {genreIdToName[id]} </span>
+                                            )}
+
+                                        </div>
 
                                     </div>
 
@@ -109,7 +143,7 @@ export default function Homepage() {
                         </div>
                     ))}
                 </div >
-            </main>
+            </main >
 
 
 

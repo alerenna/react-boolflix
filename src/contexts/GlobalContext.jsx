@@ -10,6 +10,7 @@ function GlobalProvider({ children }) {
     const [cast, setCast] = useState([])
     const [mediaType, setMediaType] = useState('movie')
 
+    //Fetch for movies and Series
     useEffect(() => {
 
         const api_key = import.meta.env.VITE_MOVIE_DB_API_KEY;
@@ -37,6 +38,8 @@ function GlobalProvider({ children }) {
 
     }, [query])
 
+
+    //Fetch for cast
     useEffect(() => {
 
         if (!movieId) return;
@@ -57,7 +60,6 @@ function GlobalProvider({ children }) {
                 console.log(err);
             })
     }, [movieId, mediaType])
-
 
 
     return (
