@@ -28,50 +28,60 @@ export default function Homepage() {
 
 
             < Header />
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                {movies.map(movie => (
-                    <div key={movie.id} className="col">
-                        <div className="card h-100">
-                            <div className="card-body">
-                                <img className="poster" src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`} alt="" />
-                                <h4>{movie.title ? movie.title : movie.name}</h4>
-                                <p>{movie.original_title ? movie.original_title : movie.original_name}</p>
-                                <img
-                                    src={
-                                        languageToCountry[movie.original_language]
-                                            ? `https://flagsapi.com/${languageToCountry[movie.original_language]}/flat/32.png`
-                                            : 'https://via.placeholder.com/32?text=?'
-                                    }
-                                    alt={movie.original_language}
-                                />
-                                <p>{movie.original_language.toUpperCase()}</p>
 
-                                {
-                                    (() => {
-                                        const vote = Math.ceil(movie.vote_average / 2)
-                                        const stars = []
+            <main>
+                <div className="row row-cols-3 row-cols-md-4 row-cols-lg-6 g-4">
+                    {movies.map(movie => (
+                        <div key={movie.id} className="col">
+                            <div className="card h-100">
+                                <div className="card_body">
+                                    <img className="poster card-img" src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`} alt="" />
 
-                                        for (let i = 1; i <= 5; i++) {
-                                            if (i <= vote) {
-                                                stars.push(<i key={i} className="bi bi-star-fill full"></i>)
-                                            } else {
+                                    <div className="movie-infos">
 
-                                                stars.push(<i key={i} className="bi bi-star empty"></i>)
+                                        <h4>{movie.title ? movie.title : movie.name}</h4>
+                                        <p>{movie.original_title ? movie.original_title : movie.original_name}</p>
 
+                                        {/* Language to flag */}
+                                        <img
+                                            src={
+                                                languageToCountry[movie.original_language]
+                                                    ? `https://flagsapi.com/${languageToCountry[movie.original_language]}/flat/32.png`
+                                                    : 'https://via.placeholder.com/32?text=?'
                                             }
+                                            alt={movie.original_language}
+                                        />
+                                        <p>{movie.original_language.toUpperCase()}</p>
+
+                                        {/* Function for vote to 5 stars */}
+                                        {
+                                            (() => {
+                                                const vote = Math.ceil(movie.vote_average / 2)
+                                                const stars = []
+
+                                                for (let i = 1; i <= 5; i++) {
+                                                    if (i <= vote) {
+                                                        stars.push(<i key={i} className="bi bi-star-fill full"></i>)
+                                                    } else {
+
+                                                        stars.push(<i key={i} className="bi bi-star empty"></i>)
+
+                                                    }
+                                                }
+                                                return <div>{stars}</div>
+                                            })()
                                         }
-                                        return <div>{stars}</div>
-                                    })()
-                                }
+
+                                    </div>
 
 
-
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ))}
+                </div >
+            </main>
 
-                ))}
-            </div >
 
 
         </>
