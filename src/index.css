@@ -14,3 +14,13 @@ body {
 .empty {
   color: lightgray;
 }
+
+header {
+  background-color: black;
+
+  .logo {
+    color: red;
+    font-weight: 600;
+    font-size: 30px;
+  }
+}
