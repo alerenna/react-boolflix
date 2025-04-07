@@ -41,27 +41,90 @@ const genreIdToName = {
 
 export default function Homepage() {
 
-    const { movies, setQuery, setMovieId, cast, setMediaType } = useMoviesContext()
+    const { movies, setQuery, setMovieId, cast, setMediaType, mediaType, filterTypes, setFilterTypes } = useMoviesContext()
     const [selecteMovieId, setSelectedMovieId] = useState(null)
+    const [selectedGenre, setSelectedGenre] = useState('')
 
-    console.log('CAST:', cast);
+    const filteredMovies = movies.filter(movie => {
+        const foundType = filterTypes.length === 0 || filterTypes.includes(movie.media_type)
+        const foundGenre = selectedGenre === '' || movie.genre_ids.includes(Number(selectedGenre))
+
+        return foundType && foundGenre
+    })
 
 
+
+    function handleCheckboxFilter(value) {
+        if (filterTypes.includes(value)) {
+            setFilterTypes(filterTypes.filter(type => type !== value))
+        } else {
+            setFilterTypes([...filterTypes, value])
+        }
+    }
 
     return (
         <>
 
-
-
             < Header />
 
             <main>
+
+                <div className="filters mt-3">
+
+                    <h5 className="filter-title text-center">Filter your search</h5>
+
+                    <div className="filter-container d-flex g-5 justify-content-center align-items-baseline mt-3 ">
+                        <div className="form-check form-check-inline">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="movie-option"
+                                value="movie"
+                                onChange={() => handleCheckboxFilter('movie')}
+                            />
+                            <label className="form-check-label" for="">MOVIE</label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="tv-option"
+                                value="tv"
+                                onChange={() => handleCheckboxFilter('tv')}
+                            />
+                            <label className="form-check-label" for="">TV</label>
+                        </div>
+
+                        <div className="mb-3">
+                            <select
+                                className="form-select form-select"
+                                name="genre-selection"
+                                id="genre-selection"
+                                value={selectedGenre}
+                                onChange={(e) => setSelectedGenre(e.target.value)}
+                            >
+                                <option selected>Select genre</option>
+                                {Object.entries(genreIdToName).map(([id, genre]) => (
+                                    <option value={id} key={id}>{genre}</option>
+                                ))}
+
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+
                 <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mt-3">
-                    {movies.map(movie => (
+
+                    {filteredMovies.map(movie => (
                         <div key={movie.id} className="col">
                             <div className="card h-100">
                                 <div className="card_body">
                                     <img className="poster card-img" src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`} alt="" />
+                                    <div className="media-type">
+                                        {movie.media_type === 'movie' ? <div>MOVIE</div> : <div>TV</div>}
+                                    </div>
 
                                     <div className="movie-infos">
 
@@ -130,7 +193,7 @@ export default function Homepage() {
                                         <div className="genre-container">
                                             <h6 className="genres-title mt-2">Genres</h6>
                                             {movie.genre_ids.map(id =>
-                                                <span className="genre" key={id} > {genreIdToName[id]} </span>
+                                                <span className="genre" key={id} > {genreIdToName[Number(id)]} </span>
                                             )}
 
                                         </div>

@@ -9,6 +9,8 @@ function GlobalProvider({ children }) {
     const [movieId, setMovieId] = useState('')
     const [cast, setCast] = useState([])
     const [mediaType, setMediaType] = useState('movie')
+    const [filterTypes, setFilterTypes] = useState([])
+
 
     //Fetch for movies and Series
     useEffect(() => {
@@ -25,7 +27,17 @@ function GlobalProvider({ children }) {
                     .then(res => res.json())
                     .then(seriesData => {
 
-                        setMovies([...moviesData.results, ...seriesData.results])
+                        const movieWithType = moviesData.results.map(movie => ({
+                            ...movie,
+                            media_type: 'movie'
+                        }))
+
+                        const seriesWithType = seriesData.results.map(serie => ({
+                            ...serie,
+                            media_type: 'tv'
+                        }))
+
+                        setMovies([...movieWithType, ...seriesWithType])
                     })
 
                     .catch(err => {
@@ -63,7 +75,7 @@ function GlobalProvider({ children }) {
 
 
     return (
-        <GlobalContext.Provider value={{ movies, setMovies, query, setQuery, cast, setCast, movieId, setMovieId, mediaType, setMediaType }}>
+        <GlobalContext.Provider value={{ movies, setMovies, query, setQuery, cast, setCast, movieId, setMovieId, mediaType, setMediaType, filterTypes, setFilterTypes }}>
             {children}
         </GlobalContext.Provider>
     )
