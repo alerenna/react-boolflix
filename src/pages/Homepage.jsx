@@ -30,7 +30,7 @@ export default function Homepage() {
             < Header />
 
             <main>
-                <div className="row row-cols-3 row-cols-md-4 row-cols-lg-6 g-4">
+                <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
                     {movies.map(movie => (
                         <div key={movie.id} className="col">
                             <div className="card h-100">
@@ -41,36 +41,40 @@ export default function Homepage() {
 
                                         <h4>{movie.title ? movie.title : movie.name}</h4>
                                         <p>{movie.original_title ? movie.original_title : movie.original_name}</p>
-
-                                        {/* Language to flag */}
-                                        <img
-                                            src={
-                                                languageToCountry[movie.original_language]
-                                                    ? `https://flagsapi.com/${languageToCountry[movie.original_language]}/flat/32.png`
-                                                    : 'https://via.placeholder.com/32?text=?'
-                                            }
-                                            alt={movie.original_language}
-                                        />
-                                        <p>{movie.original_language.toUpperCase()}</p>
-
-                                        {/* Function for vote to 5 stars */}
-                                        {
-                                            (() => {
-                                                const vote = Math.ceil(movie.vote_average / 2)
-                                                const stars = []
-
-                                                for (let i = 1; i <= 5; i++) {
-                                                    if (i <= vote) {
-                                                        stars.push(<i key={i} className="bi bi-star-fill full"></i>)
-                                                    } else {
-
-                                                        stars.push(<i key={i} className="bi bi-star empty"></i>)
-
-                                                    }
+                                        <div className="language_vote d-flex justify-content-between">
+                                            {/* Language to flag */}
+                                            <img
+                                                src={
+                                                    languageToCountry[movie.original_language]
+                                                        ? `https://flagsapi.com/${languageToCountry[movie.original_language]}/flat/32.png`
+                                                        : 'https://via.placeholder.com/32?text=?'
                                                 }
-                                                return <div>{stars}</div>
-                                            })()
-                                        }
+                                                alt={movie.original_language}
+                                            />
+                                            {/* <p>{movie.original_language.toUpperCase()}</p> */}
+
+                                            {/* Function for vote to 5 stars */}
+                                            {
+                                                (() => {
+                                                    const vote = Math.ceil(movie.vote_average / 2)
+                                                    const stars = []
+
+                                                    for (let i = 1; i <= 5; i++) {
+                                                        if (i <= vote) {
+                                                            stars.push(<i key={i} className="bi bi-star-fill full"></i>)
+                                                        } else {
+
+                                                            stars.push(<i key={i} className="bi bi-star empty"></i>)
+
+                                                        }
+                                                    }
+                                                    return <div>{stars}</div>
+                                                })()
+                                            }
+                                        </div>
+
+
+                                        <p className="overview">{movie.overview}</p>
 
                                     </div>
 
