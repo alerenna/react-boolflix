@@ -19,7 +19,11 @@ const languageToCountry = {
 
 export default function Homepage() {
 
-    const { movies, setQuery } = useMoviesContext()
+    const { movies, setQuery, setMovieId, cast, setMediaType } = useMoviesContext()
+    const [selecteMovieId, setSelectedMovieId] = useState(null)
+
+    console.log('CAST:', cast);
+
 
 
     return (
@@ -30,7 +34,7 @@ export default function Homepage() {
             < Header />
 
             <main>
-                <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 mt-3">
+                <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mt-3">
                     {movies.map(movie => (
                         <div key={movie.id} className="col">
                             <div className="card h-100">
@@ -43,15 +47,15 @@ export default function Homepage() {
                                         <p>{movie.original_title ? movie.original_title : movie.original_name}</p>
                                         <div className="language_vote d-flex justify-content-between">
                                             {/* Language to flag */}
-                                            <img
-                                                src={
-                                                    languageToCountry[movie.original_language]
-                                                        ? `https://flagsapi.com/${languageToCountry[movie.original_language]}/flat/32.png`
-                                                        : 'https://via.placeholder.com/32?text=?'
-                                                }
-                                                alt={movie.original_language}
-                                            />
-                                            {/* <p>{movie.original_language.toUpperCase()}</p> */}
+
+                                            {languageToCountry[movie.original_language] ? (
+
+                                                <img src={`https://flagsapi.com/${languageToCountry[movie.original_language]}/flat/32.png`} alt={movie.original_language}></img>
+                                            ) : (
+                                                <span>{movie.original_language.toUpperCase()}</span>
+                                            )}
+
+
 
                                             {/* Function for vote to 5 stars */}
                                             {
@@ -72,9 +76,30 @@ export default function Homepage() {
                                                 })()
                                             }
                                         </div>
-
-
                                         <p className="overview">{movie.overview}</p>
+
+                                        <div className="cast" onClick={() => {
+                                            console.log('Clicked movie');
+
+                                            setMovieId(movie.id)
+                                            setSelectedMovieId(movie.id)
+
+                                            if (movie.title) {
+                                                setMediaType('movie')
+                                            } else {
+                                                setMediaType('tv')
+                                            }
+                                        }}>
+                                            {selecteMovieId !== movie.id && <span>Show cast</span>}
+                                            {selecteMovieId === movie.id && (
+                                                <ul className="cast-list list-unstyled">
+                                                    {cast.slice(0, 5).map(actor => (
+                                                        <li className="actor" key={actor.id}>{actor.name}</li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </div>
+
 
                                     </div>
 
