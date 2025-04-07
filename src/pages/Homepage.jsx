@@ -30,7 +30,7 @@ export default function Homepage() {
             < Header />
 
             <main>
-                <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+                <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 mt-3">
                     {movies.map(movie => (
                         <div key={movie.id} className="col">
                             <div className="card h-100">
